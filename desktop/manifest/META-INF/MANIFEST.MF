@@ -1,0 +1,1 @@
+Main-Class: com.github.signal2564.Main
