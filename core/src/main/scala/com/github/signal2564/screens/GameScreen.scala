@@ -10,7 +10,6 @@ import com.github.signal2564.logging.Loggable
 final class GameScreen extends CommonGameScreen with Loggable {
   log.debug("Initializing game screen...")
 
-  val spriteBatch = new SpriteBatch()
   val shapeRenderer = new ShapeRenderer()
 
   var x = 0
@@ -25,14 +24,10 @@ final class GameScreen extends CommonGameScreen with Loggable {
     cam.update()
     shapeRenderer.setProjectionMatrix(cam.projection)
 
-    spriteBatch.begin()
-
     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled)
     shapeRenderer.setColor(1, 1, 1, 1)
     shapeRenderer.circle(x, y, 20, 16)
     shapeRenderer.end()
-
-    spriteBatch.end()
 
     if (Gdx.input.isKeyPressed(Keys.LEFT)) { x -= 1 }
     if (Gdx.input.isKeyPressed(Keys.RIGHT)) { x += 1 }
@@ -44,7 +39,6 @@ final class GameScreen extends CommonGameScreen with Loggable {
 
   override def dispose(): Unit = {
     log.debug("disposing screen...")
-    spriteBatch.dispose()
     shapeRenderer.dispose()
   }
 }

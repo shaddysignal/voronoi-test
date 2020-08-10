@@ -11,7 +11,7 @@ class MyGame extends Game with Loggable {
 
     log.info("creating game...")
 
-    this.setScreen(new VoronoiScreen(50))
+    this.setScreen(new VoronoiScreen(150))
   }
 
   override def dispose(): Unit = {

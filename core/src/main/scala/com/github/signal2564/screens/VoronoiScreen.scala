@@ -12,12 +12,10 @@ import scala.collection.mutable.ListBuffer
 import scala.util.Random.nextInt
 
 class VoronoiScreen(pointCount: Int) extends CommonGameScreen with Loggable {
-
-  val spriteBatch = new SpriteBatch()
   val shapeRenderer = new ShapeRenderer()
 
-  val points = ListBuffer.fill(pointCount) { new Point(nextInt((1.5 * width).toInt) - width / 4.0, nextInt((1.5 * height).toInt) - height / 4.0) }
-  points(0) = new Point(width / 2, height / 2)
+  val points: ListBuffer[Point] = ListBuffer.fill(pointCount) { Point(nextInt((1.5 * width).toInt) - width / 4.0, nextInt((1.5 * height).toInt) - height / 4.0) }
+  points(0) = Point(width / 2, height / 2)
 
   override def render(delta: Float): Unit = {
     Gdx.gl.glClearColor(0, 0, 0, 1)
@@ -25,13 +23,12 @@ class VoronoiScreen(pointCount: Int) extends CommonGameScreen with Loggable {
     Gdx.gl.glLineWidth(1)
 
     cam.update()
-    spriteBatch.setProjectionMatrix(cam.combined)
 
     val player = points.head
-    if (Gdx.input.isKeyPressed(Keys.LEFT)) { points(0) = new Point(player.x - 10, player.y, player.color) }
-    if (Gdx.input.isKeyPressed(Keys.RIGHT)) { points(0) = new Point(player.x + 10, player.y, player.color) }
-    if (Gdx.input.isKeyPressed(Keys.UP)) { points(0) = new Point(player.x, player.y + 10, player.color) }
-    if (Gdx.input.isKeyPressed(Keys.DOWN)) { points(0) = new Point(player.x, player.y - 10, player.color) }
+    if (Gdx.input.isKeyPressed(Keys.LEFT)) { points(0) = Point(player.x - 10, player.y, player.color) }
+    if (Gdx.input.isKeyPressed(Keys.RIGHT)) { points(0) = Point(player.x + 10, player.y, player.color) }
+    if (Gdx.input.isKeyPressed(Keys.UP)) { points(0) = Point(player.x, player.y + 10, player.color) }
+    if (Gdx.input.isKeyPressed(Keys.DOWN)) { points(0) = Point(player.x, player.y - 10, player.color) }
 
     if (Gdx.input.isKeyPressed(Keys.ESCAPE)) { Gdx.app.exit() }
 
@@ -39,8 +36,7 @@ class VoronoiScreen(pointCount: Int) extends CommonGameScreen with Loggable {
 
     // ---------------------------------------
 
-    spriteBatch.begin()
-
+    shapeRenderer.setProjectionMatrix(cam.projection)
     shapeRenderer.begin(ShapeRenderer.ShapeType.Line)
 
     shapeRenderer.setColor(Color.GREEN)
@@ -55,8 +51,6 @@ class VoronoiScreen(pointCount: Int) extends CommonGameScreen with Loggable {
 
     shapeRenderer.end()
 
-    spriteBatch.end()
-
     log.info(s"FPS: ${Gdx.graphics.getFramesPerSecond}")
   }
 
@@ -68,8 +62,6 @@ class VoronoiScreen(pointCount: Int) extends CommonGameScreen with Loggable {
 
   override def dispose(): Unit = {
     log.debug("disposing...")
-
-    spriteBatch.dispose()
     shapeRenderer.dispose()
   }
 }
